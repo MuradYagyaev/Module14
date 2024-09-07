@@ -111,7 +111,7 @@ async def send_calories(message, state):
 async def get_buying_list(message):
     products = get_all_products()
     for product in products:
-        await message.answer(f'Название: {product[1]} | Описание: {product[2]} | Цена: {product[3]}')
+        await message.answer(f'Название: {product[1]} | Описание: {product[2]} | Цена: {product[3]} руб.')
         with open(f'files/{product[0]}.png', 'rb') as img:
             await message.answer_photo(img)
     await message.answer('Выберите продукт для покупки:', reply_markup=kb3)
@@ -152,6 +152,8 @@ async def set_age(message, state):
     await state.update_data(age=message.text)
     user = await state.get_data()
     add_user(user['username'], user['email'], user['age'])
+    if is_included(user['username']):
+        await message.answer('Регистрация прошла успешно!')
     await state.finish()
 
 
